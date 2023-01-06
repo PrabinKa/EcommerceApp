@@ -21,6 +21,7 @@ const Header = () => {
         justifyContent: "center",
         alignItems: "center",
         height: height * 0.2,
+        marginTop: 20,
       }}
     >
       <Image
@@ -54,6 +55,7 @@ const Header = () => {
 const { width, height } = Dimensions.get("window");
 
 const LoginScreen = () => {
+  const [showPassword, setShowPassword] = React.useState(true);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <StatusBar backgroundColor="#888" />
@@ -71,10 +73,17 @@ const LoginScreen = () => {
         <View style={{ flexDirection: "row" }}>
           <Ionicons name="lock-closed-outline" size={25} color="#888" />
           <TextInput
+            secureTextEntry={showPassword}
             placeholder="Password"
             style={{ paddingLeft: 20, width: width * 0.6 }}
           />
-          <Ionicons name="eye-off-outline" size={25} color="#888" />
+          <Pressable onPress={() => setShowPassword(!showPassword)}>
+            {showPassword ? (
+              <Ionicons name="eye-off-outline" size={25} color="#888" />
+            ) : (
+              <Ionicons name="eye-outline" size={25} color="#888" />
+            )}
+          </Pressable>
         </View>
       </View>
       <View style={{ width: width * 0.8, alignSelf: "center", marginTop: 10 }}>
@@ -93,7 +102,7 @@ const LoginScreen = () => {
           alignSelf: "center",
           borderRadius: 10,
           marginVertical: 20,
-          flexDirection: "row"
+          flexDirection: "row",
         }}
         textStyle={{
           fontSize: 16,
@@ -101,6 +110,9 @@ const LoginScreen = () => {
           color: "#fff",
         }}
       />
+      <View style={{justifyContent: "center", alignItems: "center"}}>
+        <Text style={{color: "#888"}}>. . . . . . . Or . . . . . . .</Text>
+      </View>
       <Button
         title={"Login With Google"}
         containerStyle={{
@@ -109,10 +121,10 @@ const LoginScreen = () => {
           height: 50,
           alignSelf: "center",
           borderRadius: 10,
-          marginVertical: 20,
+          marginVertical: 10,
           borderColor: "#407BFF",
           borderWidth: 1,
-          flexDirection: "row"
+          flexDirection: "row",
         }}
         textStyle={{
           fontSize: 16,
@@ -128,21 +140,25 @@ const LoginScreen = () => {
           height: 50,
           alignSelf: "center",
           borderRadius: 10,
-          marginVertical: 20,
+          marginVertical: 10,
           borderColor: "#407BFF",
           borderWidth: 1,
-          flexDirection: "row"
+          flexDirection: "row",
         }}
-        icon={'logo-google'}
+        icon={"logo-google"}
         textStyle={{
           fontSize: 16,
           fontWeight: "bold",
           color: "#888",
         }}
       />
-      <View style={{alignSelf: "center", flexDirection: "row"}}>
-        <Text style={{color: "#888", fontWeight: "600"}}>Don't have an account?</Text>
-        <Text style={{color: "red", fontWeight: "bold", marginLeft: 5}}>Register</Text>
+      <View style={{ alignSelf: "center", flexDirection: "row" }}>
+        <Text style={{ color: "#888", fontWeight: "600" }}>
+          Don't have an account?
+        </Text>
+        <Text style={{ color: "red", fontWeight: "bold", marginLeft: 5 }}>
+          Register
+        </Text>
       </View>
     </SafeAreaView>
   );
