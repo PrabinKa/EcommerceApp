@@ -81,30 +81,64 @@ export const summerItems = [
         id: 1,
         image: require("../../assets/hoodie1.png"),
         title: "Hoodie",
-        discount: "-10%"
+        name: "Zip-Up Hoodie",
+        company: "Nike",
+        discount: "-10%",
+        price: "2500"
     },
     {
         id: 2,
         image: require("../../assets/pant1.png"),
         title: "Pant",
-        discount: "-15%"
+        name: "Wool Trousers",
+        company: "Louis Vuitton",
+        discount: "-15%",
+        price: "2200"
     },
     {
         id: 3,
         image: require("../../assets/shirt1.png"),
         title: "Shirt",
-        discount: "-20%"
+        name: "Cuban Collar Shirt",
+        company: "Marika",
+        discount: "-20%",
+        price: "1800"
     },
     {
         id: 4,
         image: require("../../assets/shoe1.png"),
         title: "Shoe",
-        discount: "-10%"
+        name: "Converse Shoes",
+        company: "Nike",
+        discount: "-10%",
+        price: "2800"
     },
     {
         id: 5,
         image: require("../../assets/tshirt1.png"),
         title: "T-shirt",
-        discount: "-20%"
+        name: "Half Sleeves T-shirts",
+        company: "Uniqlo",
+        discount: "-20%",
+        price: "1200"
+    },
+]
+
+export const brandSlider = [
+    {
+        id: 1,
+        image: require("../../assets/brand1.png")
+    },
+    {
+        id: 2,
+        image: require("../../assets/brand2.png")
+    },
+    {
+        id: 3,
+        image: require("../../assets/brand3.png")
+    },
+    {
+        id: 4,
+        image: require("../../assets/brand4.png")
     },
 ]

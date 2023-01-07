@@ -11,11 +11,18 @@ const SummerItem = ({ item, containerStyle }) => {
         alignItems: "center",
         ...containerStyle,
         marginRight: 10,
+        marginLeft: 5,
+        borderRadius: 10,
+        backgroundColor: "#fff",
+        shadowColor: "#000",
+        shadowOffset: {height: 1, width: 0},
+        shadowOpacity: 0.3,
+        elevation: 5
       }}
     >
       <Image
         source={item.image}
-        style={{ height: 120, width: width * 0.45, borderRadius: 10 }}
+        style={{ height: 120, width: width * 0.42, borderRadius: 10 }}
         resizeMode="contain"
       />
       <View style={{ position: "absolute", left: 10, bottom: 10 }}>

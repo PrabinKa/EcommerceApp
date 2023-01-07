@@ -7,7 +7,7 @@ import {
   Image,
   StatusBar,
   Dimensions,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -16,6 +16,8 @@ import ImageSliding from "./components/ImageSliding";
 import ClothesItemList from "./components/ClothesItemList";
 import SummerItem from "./components/SummerItem";
 import FeaturedBrand from "./components/FeaturedBrand";
+import { brandSlider } from "../constants/Constants";
+import Recommendation from "./components/Recommendation";
 
 const { width, height } = Dimensions.get("window");
 
@@ -126,7 +128,7 @@ const HomeScreen = () => {
                   item={item}
                   containerStyle={{
                     height: 120,
-                    width: width * 0.45,
+                    width: width * 0.42,
                     marginVertical: 10,
                   }}
                 />
@@ -134,8 +136,67 @@ const HomeScreen = () => {
             }}
           />
         </View>
-        <View>
-          <FeaturedBrand/>
+        <View >
+          <View
+            style={{ width: width * 0.9, flexDirection: "row", justifyContent: "space-between", alignSelf: "center" }}
+          >
+            <Text
+              style={{ fontSize: 18, fontWeight: "bold", color: "#407BFF" }}
+            >
+              Featured Brands
+            </Text>
+            <Ionicons name="ios-chevron-forward" size={30} color="#407BFF" />
+          </View>
+          <FlatList
+            data={brandSlider}
+            keyExtractor={(item) => `${item.id}`}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => {
+              return (
+                <FeaturedBrand
+                  item={item}
+                  containerStyle={{
+                    width: width,
+                    height: 150,
+                    marginVertical: 20,
+                  }}
+                />
+              );
+            }}
+          />
+        </View>
+        <View style={{ width: width * 0.9, alignSelf: "center" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text
+              style={{ fontSize: 18, fontWeight: "bold", color: "#407BFF" }}
+            >
+              Recommendation
+            </Text>
+            <Ionicons name="ios-chevron-forward" size={30} color="#407BFF" />
+          </View>
+          <FlatList
+            data={summerItems}
+            keyExtractor={(item) => `${item.id}`}
+            horizontal
+            // pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => {
+              return (
+                <Recommendation
+                  item={item}
+                  containerStyle={{
+                    height: 180,
+                    width: width * 0.42,
+                    marginVertical: 10,
+                  }}
+                />
+              );
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
