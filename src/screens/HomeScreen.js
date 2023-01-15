@@ -18,10 +18,13 @@ import SummerItem from "./components/SummerItem";
 import FeaturedBrand from "./components/FeaturedBrand";
 import { brandSlider } from "../constants/Constants";
 import Recommendation from "./components/Recommendation";
+import { useNavigation } from "@react-navigation/native";
+import Cart from "./Cart";
 
 const { width, height } = Dimensions.get("window");
 
 const Header = () => {
+  const navigation = useNavigation()
   return (
     <View
       style={{
@@ -52,6 +55,7 @@ const Header = () => {
           padding: 5,
           borderRadius: 20,
         }}
+        onPress={()=> navigation.navigate('Cart')}
       >
         <Ionicons name="cart-outline" size={25} color="red" />
       </TouchableOpacity>

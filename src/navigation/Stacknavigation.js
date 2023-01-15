@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/authentication/LoginScreen";
 import RegisterScreen from "../screens/authentication/RegisterScreen";
 import Bottomtabs from "./Bottomtabs";
+import Cart from "../screens/Cart";
 
 const Stack = createStackNavigator()
 
@@ -21,6 +22,7 @@ const Stacknavigation = () => {
         <Stack.Screen name="Onboard" component={OnboardingScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Cart" component={Cart} />
       </Stack.Navigator>
     </NavigationContainer>
   );
