@@ -11,7 +11,7 @@ const ImageSliding = ({ item, containerStyle }) => {
       }}
     >
       <Image
-        source={item.image}
+        source={item}
         resizeMode="contain"
         style={{ height: 200, width: "90%", borderRadius: 10 }}
       />

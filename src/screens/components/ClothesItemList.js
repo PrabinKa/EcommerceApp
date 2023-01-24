@@ -1,7 +1,17 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 
-const ClothesItemList = ({ item, containerStyle }) => {
+import { useDispatch } from "react-redux";
+import { productsFromList } from "../../redux/ClothesData";
+
+const ClothesItemList = ({ item, containerStyle, navigation }) => {
+  const dispatch = useDispatch();
+
+  const handleOnpress = (data) => {
+    dispatch(productsFromList(data)); 
+    navigation.navigate('ProductsList');
+  }
+
   return (
     <View
       style={{
@@ -13,6 +23,7 @@ const ClothesItemList = ({ item, containerStyle }) => {
     >
       <TouchableOpacity
         style={{ backgroundColor: "#999", padding: 10, borderRadius: 30 }}
+        onPress={() => handleOnpress(item) }
       >
         <Image
           source={item.image}

@@ -3,77 +3,95 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
-  FlatList,
   Image,
   StatusBar,
   Dimensions,
   ScrollView,
+  FlatList,
 } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { imageSlider, clothesItem, summerItems } from "../constants/Constants";
-import ImageSliding from "./components/ImageSliding";
-import ClothesItemList from "./components/ClothesItemList";
-import SummerItem from "./components/SummerItem";
-import FeaturedBrand from "./components/FeaturedBrand";
-import { brandSlider } from "../constants/Constants";
-import Recommendation from "./components/Recommendation";
+import {
+  clothesItem,
+  summerItems,
+  sliderImage,
+  brandSlider,
+  colors,
+} from "../constants/Constants";
+import {
+  ImageSliding,
+  ClothesItemList,
+  MainHeader,
+  SummerItem,
+  FeaturedBrand,
+  Recommendation,
+} from "./components";
 import { useNavigation } from "@react-navigation/native";
-import Cart from "./Cart";
 
 const { width, height } = Dimensions.get("window");
 
-const Header = () => {
-  const navigation = useNavigation()
-  return (
-    <View
-      style={{
-        backgroundColor: "#407BFF",
-        height: 60,
-        justifyContent: "center",
-        flexDirection: "row",
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
-      }}
-    >
-      <Text
-        style={{
-          fontSize: 18,
-          fontWeight: "800",
-          alignSelf: "center",
-          color: "#fff",
-        }}
-      >
-        Home
-      </Text>
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          right: 30,
-          bottom: 15,
-          backgroundColor: "#F5F5F5",
-          padding: 5,
-          borderRadius: 20,
-        }}
-        onPress={()=> navigation.navigate('Cart')}
-      >
-        <Ionicons name="cart-outline" size={25} color="red" />
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 const HomeScreen = () => {
+  const [firstSlider, setFirstSlider] = React.useState([
+    ...sliderImage,
+    ...sliderImage,
+  ]);
+  const [currentPosition, setCurrentPosition] = React.useState(0);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const flatListRef = React.useRef();
+  const [active, setActive] = React.useState(0);
+  const navigation = useNavigation();
+
+  // image slider animation
+  React.useEffect(() => {
+    let positionTimer;
+
+    const timer = () => {
+      positionTimer = setTimeout(() => {
+        setCurrentPosition((prevPosition) => {
+          const position = Number(prevPosition) + width;
+          flatListRef?.current?.scrollToOffset({
+            offset: position,
+            animated: false,
+          });
+          const maxOffset = firstSlider.length * width;
+
+          if (prevPosition > maxOffset) {
+            const offset = prevPosition - maxOffset;
+
+            flatListRef?.current.scrollToOffset({
+              offset,
+              animated: false,
+            });
+
+            return offset;
+          } else {
+            return position;
+          }
+        });
+        timer();
+      }, 1000 * 10);
+    };
+
+    timer();
+
+    return () => {
+      clearTimeout(positionTimer);
+    };
+  });
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <StatusBar backgroundColor={"#888"} />
-      <Header />
+      <MainHeader title={"Home"} />
       <ScrollView>
         <FlatList
-          data={imageSlider}
-          keyExtractor={(item) => `${item.id}`}
+          ref={flatListRef}
+          data={firstSlider}
+          listKey="Slider1"
+          keyExtractor={(_, index) => `Slider1${index}`}
           horizontal
           pagingEnabled
+          scrollEnabled={false}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => {
             return (
@@ -104,6 +122,7 @@ const HomeScreen = () => {
                     alignItems: "center",
                     marginBottom: 20,
                   }}
+                  navigation={navigation}
                 />
               );
             }}
@@ -140,9 +159,14 @@ const HomeScreen = () => {
             }}
           />
         </View>
-        <View >
+        <View>
           <View
-            style={{ width: width * 0.9, flexDirection: "row", justifyContent: "space-between", alignSelf: "center" }}
+            style={{
+              width: width * 0.9,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignSelf: "center",
+            }}
           >
             <Text
               style={{ fontSize: 18, fontWeight: "bold", color: "#407BFF" }}
@@ -191,6 +215,7 @@ const HomeScreen = () => {
             renderItem={({ item, index }) => {
               return (
                 <Recommendation
+                  navigation={navigation}
                   item={item}
                   containerStyle={{
                     height: 180,

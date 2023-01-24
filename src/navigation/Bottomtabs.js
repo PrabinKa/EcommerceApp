@@ -1,11 +1,16 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import HomeScreen from "../screens/HomeScreen";
 import NewArrivalScreen from "../screens/NewArrivalScreen";
-import SearchScreen from "../screens/SearchScreen";
+import Cart from "../screens/Cart";
 import UserProfle from "../screens/UserProfile";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+import { colors } from "../constants/Constants";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +21,7 @@ const Bottomtabs = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#407BFF",
+          backgroundColor: colors.blue,
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
           height: 60,
@@ -28,26 +33,26 @@ const Bottomtabs = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.tabsWrapper}>
               <Ionicons
                 name="home-outline"
                 size={25}
-                color={focused ? "#fff" : "#333"}
+                color={focused ? colors.white : colors.darkGray}
               />
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchScreen}
+        name="Cart"
+        component={Cart}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.tabsWrapper}>
               <Ionicons
-                name="search"
+                name="cart-outline"
                 size={25}
-                color={focused ? "#fff" : "#333"}
+                color={focused ? colors.white : colors.darkGray}
               />
             </View>
           ),
@@ -58,11 +63,11 @@ const Bottomtabs = () => {
         component={NewArrivalScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.tabsWrapper}>
               <Ionicons
                 name="notifications-outline"
                 size={25}
-                color={focused ? "#fff" : "#333"}
+                color={focused ? colors.white : colors.darkGray}
               />
             </View>
           ),
@@ -73,11 +78,11 @@ const Bottomtabs = () => {
         component={UserProfle}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View style={styles.tabsWrapper}>
               <Ionicons
                 name="person-outline"
                 size={25}
-                color={focused ? "#fff" : "#333"}
+                color={focused ? colors.white : colors.darkGray}
               />
             </View>
           ),
@@ -91,9 +96,13 @@ export default Bottomtabs;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { height: 1, width: 0 },
     shadowOpacity: 0.3,
     elevation: 5,
   },
+  tabsWrapper: { 
+    justifyContent: "center", 
+    alignItems: "center" 
+  }
 });

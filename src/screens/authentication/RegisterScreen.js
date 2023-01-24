@@ -7,13 +7,22 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
-  Dimensions
+  Dimensions,
+  TextInput,
+  Alert
 } from "react-native";
 import React from "react";
 import Button from "../components/Button";
-import InputBox from "../components/InputBox";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
-const {height, width} = Dimensions.get('window')
+import { collection, addDoc } from "firebase/firestore"; 
+import { firestore } from "../../../firebaseConfig";
+import {createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+
+const auth = getAuth()
+
+const { height, width } = Dimensions.get("window");
 
 const Header = () => {
   return (
@@ -54,18 +63,77 @@ const Header = () => {
 };
 
 const RegisterScreen = () => {
+  const [secureText, setSecureText] = React.useState(true);
+  const [fullName, setFullName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const navigation = useNavigation();
+
+  const signup = async() => {
+    // try {
+    //   await addDoc(collection(firestore, "users"), {
+    //     fullname: fullName,
+    //     email: email,
+    //     password: password,
+    //     rePassword: rePassword
+    //   });
+    // } catch (e) {
+    //   console.error("Error adding document: ", e);
+    // }
+    if(email === '' || password === ''){
+      Alert.alert('Signup', 'Both email and password field are required !')
+    }
+
+    try{
+      await createUserWithEmailAndPassword(auth, email, password)
+      navigation.navigate('Login')
+    }catch(error){
+      Alert.alert('Signup Error', error.message)
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <Header/>
+      <Header />
       <StatusBar backgroundColor="#888" />
-      <InputBox icon={"person-outline"} placeholder={"Full Name"} />
-      <InputBox icon={"mail-outline"} placeholder={"Email"} />
-      <InputBox icon={"lock-closed-outline"} placeholder={"Password"} rightIcon={'eye-outline'} />
-      <InputBox
-        icon={"lock-closed-outline"}
-        placeholder={"Re-write Password"}
-        rightIcon={'eye-outline'}
-      />
+      {/* <View style={styles.textInputWrapper}>
+        <View style={{ flexDirection: "row" }}>
+          <Ionicons name="person-outline" size={25} color="#888" />
+          <TextInput
+            placeholder="Full Name"
+            style={{ paddingLeft: 20, width: width * 0.6 }}
+            onChangeText={(text) => setFullName(text)}
+          />
+        </View>
+      </View> */}
+      <View style={styles.textInputWrapper}>
+        <View style={{ flexDirection: "row" }}>
+          <Ionicons name="mail-outline" size={25} color="#888" />
+          <TextInput
+            placeholder="Email"
+            style={{ paddingLeft: 20, width: width * 0.6 }}
+            onChangeText={(text) => setEmail(text)}
+          />
+        </View>
+      </View>
+      <View style={styles.textInputWrapper}>
+        <View style={{ flexDirection: "row" }}>
+          <Ionicons name="lock-closed-outline" size={25} color="#888" />
+          <TextInput
+            placeholder="Password"
+            style={{ paddingLeft: 20, width: width * 0.6 }}
+            secureTextEntry={secureText}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <Pressable onPress={() => setSecureText(!secureText)}>
+            {secureText ? (
+              <Ionicons name="eye-off-outline" size={25} color="#888" />
+            ) : (
+              <Ionicons name="eye-outline" size={25} color="#888" />
+            )}
+          </Pressable>
+        </View>
+      </View>
       <Button
         title={"SIGN UP"}
         textStyle={{
@@ -73,14 +141,15 @@ const RegisterScreen = () => {
           fontSize: 16,
           fontWeight: "bold",
         }}
+        onPress={signup}
         containerStyle={{
-            width: width * 0.7,
-            backgroundColor: "#407BFF",
-            height: 50,
-            alignSelf: "center",
-            borderRadius: 10,
-            marginVertical: 20,
-            flexDirection: "row",
+          width: width * 0.7,
+          backgroundColor: "#407BFF",
+          height: 50,
+          alignSelf: "center",
+          borderRadius: 10,
+          marginVertical: 20,
+          flexDirection: "row",
         }}
       />
     </SafeAreaView>
@@ -88,3 +157,17 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
+
+const styles = StyleSheet.create({
+  textInputWrapper: {
+    width: width * 0.8,
+    borderColor: "#888",
+    borderWidth: 1,
+    height: 50,
+    alignSelf: "center",
+    borderRadius: 10,
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
+});
